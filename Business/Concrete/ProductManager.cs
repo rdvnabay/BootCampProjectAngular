@@ -1,0 +1,84 @@
+﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results.Abstract;
+using Core.Utilities.Results.Concrete;
+using DataAccess.Abstract;
+using Entities.Concrete;
+using Entities.DTOs;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Business.Concrete
+{
+    public class ProductManager : IProductService
+    {
+        IProductDal _productDal;
+        public ProductManager(IProductDal productDal)
+        {
+            _productDal = productDal;
+        }
+
+        public IResult Add(Product product)
+        {
+            //İş kodları
+            if (product.ProductName.Length<2)
+            {
+                return new ErrorResult(Messages.ProductNameInvalid);
+            }
+            _productDal.Add(product);
+            return new SuccessResult(Messages.ProductAdded);
+        }
+
+        public List<Product> GetAll()
+        {
+           return  _productDal.GetAll();
+
+        }
+
+        public List<Product> GetAllByCategoryId(int id)
+        {
+            return _productDal.GetAll(x => x.CategoryId == id);
+        }
+
+        public Product GetById(int productId)
+        {
+            return _productDal.Get(x => x.ProductId == productId);
+        }
+
+        public List<ProductDetailDto> GetProductDetails()
+        {
+            return _productDal.GetProductDetails();
+        }
+
+        public List<Product> GetUnitePrice(decimal min, decimal max)
+        {
+            return _productDal.GetAll(x => x.UnitPrice >= 50 && x.UnitPrice <= 100);
+        }
+
+        IDataResult<List<Product>> IProductService.GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        IDataResult<List<Product>> IProductService.GetAllByCategoryId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        IDataResult<Product> IProductService.GetById(int productId)
+        {
+            throw new NotImplementedException();
+        }
+
+        IDataResult<List<ProductDetailDto>> IProductService.GetProductDetails()
+        {
+            throw new NotImplementedException();
+        }
+
+        IDataResult<List<Product>> IProductService.GetUnitePrice(decimal min, decimal max)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
