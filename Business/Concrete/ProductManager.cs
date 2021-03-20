@@ -10,6 +10,7 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Business.Concrete
@@ -17,9 +18,12 @@ namespace Business.Concrete
     public class ProductManager : IProductService
     {
         IProductDal _productDal;
-        public ProductManager(IProductDal productDal)
+        ICategoryService _categoryService;
+        public ProductManager(IProductDal productDal,
+            ICategoryService categoryService)
         {
             _productDal = productDal;
+            _categoryService = categoryService;
         }
         #region Add
         [ValidationAspect(typeof(ProductValidator))]
@@ -93,7 +97,7 @@ namespace Business.Concrete
         #region Business Rules 
         private IResult CheckIfProductNameAlreadyExist(string productName)
         {
-            var result = _productDal.GetAll(p => p.Name == productName).Any();
+            var result = _productDal.GetAll(p => p.ProductName == productName).Any();
             if (result)
             {
                 return new ErrorResult(Messages.ProductNameAlreadyExist);
