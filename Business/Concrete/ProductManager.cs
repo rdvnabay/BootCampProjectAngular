@@ -41,58 +41,32 @@ namespace Business.Concrete
         }
         #endregion
 
-        public List<Product> GetAll()
+        public IDataResult<List<Product>> GetAll()
         {
-            return _productDal.GetAll();
-
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll());
         }
 
-        public List<Product> GetAllByCategoryId(int id)
+        public IDataResult<List<Product>> GetAllByCategoryId(int categoryId)
         {
-            return _productDal.GetAll(x => x.CategoryId == id);
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(x => x.CategoryId == categoryId));
         }
 
-        public Product GetById(int productId)
+        public IDataResult<Product> GetById(int productId)
         {
-            return _productDal.Get(x => x.ProductId == productId);
+            return new SuccessDataResult<Product>(_productDal.Get(x => x.ProductId == productId));
         }
 
-        public List<ProductDetailDto> GetProductDetails()
+        public IDataResult<List<ProductDetailDto>> GetProductDetails()
         {
-            return _productDal.GetProductDetails();
+            return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails());
         }
 
-        public List<Product> GetUnitePrice(decimal min, decimal max)
+        public IDataResult<List<Product>> GetUnitePrice(decimal min, decimal max)
         {
-            return _productDal.GetAll(x => x.UnitPrice >= 50 && x.UnitPrice <= 100);
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(x => x.UnitPrice >= 50 && x.UnitPrice <= 100));
         }
 
-        IDataResult<List<Product>> IProductService.GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        IDataResult<List<Product>> IProductService.GetAllByCategoryId(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        IDataResult<Product> IProductService.GetById(int productId)
-        {
-            throw new NotImplementedException();
-        }
-
-        IDataResult<List<ProductDetailDto>> IProductService.GetProductDetails()
-        {
-            throw new NotImplementedException();
-        }
-
-        IDataResult<List<Product>> IProductService.GetUnitePrice(decimal min, decimal max)
-        {
-            throw new NotImplementedException();
-        }
-
-
+    
         //Business Rules Methods
         #region Business Rules 
         private IResult CheckIfProductNameAlreadyExist(string productName)

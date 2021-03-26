@@ -24,5 +24,12 @@ namespace WebAPI.Controllers
             var data=_productService.GetAll();
             return Ok(data);
         }
+
+        [HttpGet("getallbycategory")]
+        public IActionResult GetAllByCategory(int categoryId)
+        {
+            var data = _productService.GetAllByCategoryId(categoryId);
+            return Ok(data);
+        }
     }
 }

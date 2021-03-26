@@ -7,11 +7,11 @@ using System.Text;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class NorthwindContext:DbContext
+    public class NorthwindDbContext:DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=.\RAMAZAN; Database=Northwind; Trusted_Connection=true;");
+            optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS; Database=Northwind; Trusted_Connection=true;");
         }
 
         public DbSet<Product> Products { get; set; }
